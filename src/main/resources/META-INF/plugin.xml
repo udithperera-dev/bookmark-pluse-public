@@ -1,0 +1,83 @@
+<!-- Plugin Configuration File -->
+<idea-plugin>
+    <id>com.akurupela.bookmarks</id>
+    <name>Bookmarks+</name>
+    <vendor email="hello@akurupela.com" url="https://akurupela.com">Akurupela</vendor>
+
+    <description><![CDATA[
+    Advanced code bookmarks and highlights for IntelliJ IDEA / Android Studio:
+    <ul>
+      <li>Category bookmarks with custom icon and color</li>
+      <li>Optional mnemonic number on gutter icon</li>
+      <li>Whole-line or selection highlight</li>
+      <li>Highlight-only marks in a separate Highlights group</li>
+      <li>JSON import / export</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="com.akurupela.bookmarks.BookmarkService"/>
+
+        <toolWindow id="Bookmarks+"
+                    anchor="right"
+                    icon="/icons/toolWindowBookmarks.svg"
+                    factoryClass="com.akurupela.bookmarks.ui.BookmarksToolWindowFactory"/>
+
+        <notificationGroup id="Bookmarks+" displayType="BALLOON"/>
+    </extensions>
+
+    <projectListeners>
+        <listener class="com.akurupela.bookmarks.BookmarkEditorListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+    </projectListeners>
+
+    <actions>
+        <group id="com.akurupela.bookmarks.Menu"
+               text="Bookmarks+"
+               popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+
+            <action id="com.akurupela.bookmarks.AddBookmark"
+                    class="com.akurupela.bookmarks.actions.AddBookmarkAction"
+                    text="Add Code Bookmark..."
+                    description="Bookmark the current line with a category"
+                    icon="AllIcons.General.Add">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt B"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt B"/>
+                <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt B"/>
+            </action>
+
+            <action id="com.akurupela.bookmarks.AddHighlight"
+                    class="com.akurupela.bookmarks.actions.AddHighlightAction"
+                    text="Highlight Code..."
+                    description="Highlight line or selection without creating a bookmark"
+                    icon="AllIcons.Actions.Highlighting">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt H"/>
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta alt H"/>
+                <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta alt H"/>
+            </action>
+
+            <action id="com.akurupela.bookmarks.Show"
+                    class="com.akurupela.bookmarks.actions.ShowBookmarksAction"
+                    text="Show Bookmarks"
+                    description="Open Bookmarks+ tool window"
+                    icon="/icons/toolWindowBookmarks.svg"/>
+        </group>
+
+        <action id="com.akurupela.bookmarks.AddBookmark.Editor"
+                class="com.akurupela.bookmarks.actions.AddBookmarkAction"
+                text="Add Code Bookmark..."
+                icon="AllIcons.General.Add">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="com.akurupela.bookmarks.AddHighlight.Editor"
+                class="com.akurupela.bookmarks.actions.AddHighlightAction"
+                text="Highlight Code (Bookmarks+)..."
+                icon="AllIcons.Actions.Highlighting">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
